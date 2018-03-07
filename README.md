@@ -14,13 +14,27 @@ $(document).ready(function() {
 });
 ```
 
-Bind to `$(window).on("breakpoint-change");` and trigger actions based on changes.
+Bind to window's event `breakpoint-change` and listen for breakpoint changes.
+
+## Package Managers
+
+### Bower
+
+```
+bower install jquery-breakpoints
+```
+
+### NPM
+
+```
+npm install jquery-breakpoints
+```
 
 ## Examples
 
 ### Listening for Breakpoint Changes
 
-Breakpoints will trigger `breakpoint-change` when the viewport enters a new breakpoint. The returned event will include a `from` and `to` indicating the new breakpoint.
+Breakpoints will trigger `breakpoint-change` when the viewport enters a new breakpoint. The returned event will include `from` and `to` on event indicating the previous and new breakpoint.
 
 ```js
 // Basic Bind
@@ -52,9 +66,9 @@ $(window).bind("breakpoint-change.footer", function(event) {
 $(window).unbind("breakpoint-change.megamenu");
 ```
 
-### Specific Breakpoints
+### Comparing Specific Breakpoints
 
-Checking against the current breakpoint and if it matches the criteria execute the callback function. This method is **not** constantly listening for changes until the viewport hits the criteria see _Constant Check Example_ below. See comparing methods for all available options.
+Checking against the current breakpoint and if it matches the criteria execute the callback function. This method is **not** constantly listening for changes until the viewport hits the criteria see _Constant Check Example_ below. See [comparing methods](#comparing-methods) for all available options.
 
 ```js
 // Basic Example
@@ -185,3 +199,7 @@ Returns true if the current viewport is within the breakpoint and its lower limi
 ```js
 $(window).breakpoints("inside", [breakpoint name], [callback]);
 ```
+
+## Minimum Requirements
+
+Breakpoints requires jQuery v1.7 and up.
