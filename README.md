@@ -50,6 +50,32 @@ $(window).bind("breakpoint-change", function(event) {
 });
 ```
 
+### Customize Breakpoints
+
+Set breakpoints based on website/application needs.
+
+```js
+
+$(window).breakpoints({
+  breakpoints: [{
+    "name": "phone",
+    "width": 0
+  }, {
+    "name": "phone-large",
+    "width": 420
+  }, {
+    "name": "tablet",
+    "width": 768
+  }, {
+    "name": "desktop",
+    "width": 1024
+  }, {
+    "name": "desktop-large",
+    "width": 1340
+  }]
+});
+```
+
 ### Use Namespacing
 
 Using namespaces will allow unbinding of specific `breakpoint-change` if necessary.
