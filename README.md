@@ -95,10 +95,6 @@ $("button").click(function() {
 });
 ```
 
-### Realistic Examples
-
-Use cases where the two m
-
 ## Options
 
 ### breakpoints
