@@ -1,0 +1,24 @@
+{
+  "name": "jquery-breakpoints",
+  "version": "1.0.0",
+  "description": "jQuery Responsive/Breakpoint Optimized Library.",
+  "main": "jquery.breakpoints.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jerrylow/breakpoints.git"
+  },
+  "keywords": [
+    "jquery",
+    "breakpoints",
+    "responsive"
+  ],
+  "author": "jerrylow",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jerrylow/breakpoints/issues"
+  },
+  "homepage": "https://github.com/jerrylow/breakpoints#readme"
+}

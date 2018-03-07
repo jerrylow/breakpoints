@@ -6,7 +6,7 @@
     "jerrylow <lowjer@gmail.com>"
   ],
   "description": "jQuery Responsive/Breakpoint Optimized Library.",
-  "main": "jquery.breakpoints.min.js",
+  "main": "jquery.breakpoints.js",
   "keywords": [
     "jquery",
     "breakpoints",
