@@ -1,8 +1,10 @@
 # Breakpoints
 
+
 ## What is this?
 
 Breakpoints is a light weight jQuery library to detect and manage breakpoint changes. Breakpoint was originally written to optimize large single page sites with too many binds on `resize` causing performance issues. While still achieving the previous goal it has also been re-written to assist with general breakpoint management.
+
 
 ## How to use
 
@@ -15,6 +17,7 @@ $(document).ready(function() {
 ```
 
 Bind to window's event `breakpoint-change` and listen for breakpoint changes.
+
 
 ## Package Managers
 
@@ -29,6 +32,7 @@ bower install jquery-breakpoints
 ```
 npm install jquery-breakpoints
 ```
+
 
 ## Examples
 
@@ -121,6 +125,7 @@ $("button").click(function() {
 });
 ```
 
+
 ## Options
 
 ### breakpoints
@@ -154,6 +159,7 @@ A buffer is set before breakpoints trigger `breakpoint-change`. The buffer keeps
 
 these
 
+
 ## Methods
 
 ### getBreakPoint
@@ -179,6 +185,7 @@ This will stop ALL breakpoints from listening for changes. Look at the examples
 ```js
 $(window).breakpoints("destroy");
 ```
+
 
 ## Comparing Methods
 
@@ -222,6 +229,7 @@ Returns true if the current viewport is within the breakpoint and its lower limi
 $(window).breakpoints("inside", [breakpoint name], [callback]);
 ```
 
+
 ## Minimum Requirements
 
-Breakpoints requires jQuery v1.7 and up.
+Breakpoints requires jQuery `v1.7` and up.
