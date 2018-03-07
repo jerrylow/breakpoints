@@ -112,7 +112,8 @@
 
     _.settings = {
       breakpoints: settings.breakpoints,
-      buffer: settings.buffer
+      buffer: settings.buffer,
+      triggerOnInit: settings.triggerOnInit
     };
 
     // Store info
@@ -130,6 +131,17 @@
           _resizeCallback();
         }, _.settings.buffer);
       });
+    }
+
+    if (_.settings.triggerOnInit) {
+      setTimeout(function() {
+        $(window).trigger({
+          "type": "breakpoint-change",
+          "from": _.currentBp,
+          "to": _.currentBp,
+          "initialInit": true
+        });
+      }, _.settings.buffer);
     }
   }
 
@@ -167,7 +179,8 @@
       {"name" : "md", "width": 992},
       {"name" : "lg", "width": 1200}
     ],
-    buffer: 300
+    buffer: 300,
+    triggerOnInit: false
   };
 
 })(jQuery);

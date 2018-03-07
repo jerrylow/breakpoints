@@ -157,7 +157,11 @@ These are the breakpoints to monitor. The default set is aligned with Bootstraps
 
 A buffer is set before breakpoints trigger `breakpoint-change`. The buffer keeps resizing more performant by not triggering actions prematurely.
 
-these
+### triggerOnInit
+
+`boolean` `default: false`
+
+On initializing Breakpoints after the buffer trigger a `breakpoint-change` so all bindings necessary could happen. This will return the same event object as regular breakpoint change with `event.initalInit`.
 
 
 ## Methods
