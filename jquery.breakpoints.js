@@ -6,120 +6,118 @@
 
 (function($) {
   var Breakpoints = function(el, options) {
+    var _ = this;
+
     /**
      * Public
      **/
-    this.settings,
-    this.originalBreakpoint
+    _.settings,
+    _.currentBp;
 
-    this.getBreakpoint = function() {
+    _.getBreakpoint = function() {
       var windowWidth = $(window).width();
-      var breakpoints = this.settings.breakpoints;
-      var breakpointName;
+      var bps = _.settings.breakpoints;
+      var bpName;
 
-      breakpoints.forEach(function(bp) {
+      bps.forEach(function(bp) {
         if (windowWidth >= bp.width) {
-          breakpointName = bp.name;
+          bpName = bp.name;
         }
       });
 
       // Fallback to largest breakpoint.
-      if (!breakpointName) {
-        breakpointName = breakpoints[breakpoints.length - 1].name;
+      if (!bpName) {
+        bpName = bps[bps.length - 1].name;
       }
 
-      return breakpointName;
+      return bpName;
     };
 
-    this.getBreakpointWidth = function(breakpointName) {
-      var breakpoints = this.settings.breakpoints;
-      var breakpointWidth;
+    _.getBreakpointWidth = function(bpName) {
+      var bps = _.settings.breakpoints;
+      var bpWidth;
 
-      breakpoints.forEach(function(bp) {
-        if (breakpointName == bp.name) {
-          breakpointWidth = bp.width;
+      bps.forEach(function(bp) {
+        if (bpName == bp.name) {
+          bpWidth = bp.width;
         }
       });
 
-      return breakpointWidth;
+      return bpWidth;
     }
 
-    this.compareCheck = function(check, checkBreakpoint, callback) {
+    _.compareCheck = function(check, checkBpName, callback) {
       var windowWidth = $(window).width();
-      var breakpoints = this.settings.breakpoints;
-      var breakpointWidth = this.getBreakpointWidth(checkBreakpoint);
-      var isBreakpoint = false;
+      var bps = _.settings.breakpoints;
+      var bpWidth = _.getBreakpointWidth(checkBpName);
+      var isBp = false;
 
       switch (check) {
         case "lessThan":
-          isBreakpoint = windowWidth < breakpointWidth;
+          isBp = windowWidth < bpWidth;
           break;
         case "lessEqualTo":
-          isBreakpoint = windowWidth <= breakpointWidth;
+          isBp = windowWidth <= bpWidth;
           break;
         case "greaterThan":
-          isBreakpoint = windowWidth > breakpointWidth;
+          isBp = windowWidth > bpWidth;
           break;
         case "greaterEqualTo":
-          isBreakpoint = windowWidth > breakpointWidth;
+          isBp = windowWidth > bpWidth;
           break;
         case "inside":
-          breakpointIndex = breakpoints.findIndex(function(b) {
-            return b.name === checkBreakpoint;
+          bpIndex = bps.findIndex(function(bp) {
+            return bp.name === checkBpName;
           });
 
-          if (breakpointIndex === breakpoints.lenth - 1) {
-            isBreakpoint = windowWidth > breakpointWidth;
+          if (bpIndex === bps.lenth - 1) {
+            isBp = windowWidth > bpWidth;
           } else {
-            nextBreakpointWidth = this.getBreakpointWidth(breakpoints[breakpointIndex + 1].name);
-            isBreakpoint = windowWidth >= breakpointWidth && windowWidth < nextBreakpointWidth;
+            nextBpWidth = _.getBreakpointWidth(bps[bpIndex + 1].name);
+            isBp = windowWidth >= bpWidth && windowWidth < nextBpWidth;
           }
           break;
       }
 
-      if (isBreakpoint) {
+      if (isBp) {
         callback();
       }
     }
 
-    this.destroy = function() {
+    _.destroy = function() {
       $(window).unbind("breakpoints");
     }
 
     /**
      * Private
      **/
-    var _resizeCallback = function(scope) {
-      var newBreakpoint = scope.getBreakpoint();
+    var _resizeCallback = function() {
+      var newBp = _.getBreakpoint();
 
-      if (newBreakpoint !== scope.originalBreakpoint) {
+      if (newBp !== _.currentBp) {
         $(window).trigger({
           "type" : "breakpoint-change",
-          "from" : scope.originalBreakpoint,
-          "to" : newBreakpoint
+          "from" : _.currentBp,
+          "to" : newBp
         });
 
-        scope.originalBreakpoint = newBreakpoint;
+        _.currentBp = newBp;
       }
     };
 
     /**
      * Initiate
      **/
-    var $window = $(window);
-    var scope = this;
-
-    // Settings
     var settings = $.extend({}, $.fn.breakpoints.defaults, options);
 
-    this.settings = {
+    _.settings = {
       breakpoints: settings.breakpoints,
       buffer: settings.buffer
     };
 
     // Store info
     el.data("breakpoints", this);
-    this.originalBreakpoint = this.getBreakpoint();
+    _.currentBp = _.getBreakpoint();
 
     // Resizing
     var resizeThresholdTimerId;
@@ -129,30 +127,31 @@
         resizeThresholdTimerId && clearTimeout(resizeThresholdTimerId);
 
         resizeThresholdTimerId = setTimeout(function(e) {
-          _resizeCallback(scope);
-        }, scope.settings.buffer);
+          _resizeCallback();
+        }, _.settings.buffer);
       });
     }
   }
 
   $.fn.breakpoints = function(method, arg1, arg2) {
     if (this.data("breakpoints")) {
-      var thisBreakpoint = this.data("breakpoints");
+      var thisBp = this.data("breakpoints");
+      var compareMethods = [
+        "lessThan",
+        "lessEqualTo",
+        "greaterThan",
+        "greaterEqualTo",
+        "inside"
+      ];
 
       if (method === "getBreakpoint") {
-        return thisBreakpoint.getBreakpoint();
+        return thisBp.getBreakpoint();
       } else if (method === "getBreakpointWidth") {
-        return thisBreakpoint.getBreakpointWidth(arg1);
-      } else if (
-        method === "lessThan" ||
-        method === "lessEqualTo" ||
-        method === "greaterThan" ||
-        method === "greaterEqualTo" ||
-        method === "inside"
-      ) {
-        return thisBreakpoint.compareCheck(method, arg1, arg2);
+        return thisBp.getBreakpointWidth(arg1);
+      } else if (compareMethods.includes(method)) {
+        return thisBp.compareCheck(method, arg1, arg2);
       } else if (method === "destroy") {
-        thisBreakpoint.destroy();
+        thisBp.destroy();
       }
 
       return;
