@@ -14,7 +14,7 @@ $(document).ready(function() {
 });
 ```
 
-Bind to `$(window).on('breakpoint-change');` and trigger actions based on changes.
+Bind to `$(window).on("breakpoint-change");` and trigger actions based on changes.
 
 ## Examples
 
@@ -24,13 +24,13 @@ Breakpoints will trigger `breakpoint-change` when the viewport enters a new brea
 
 ```js
 // Basic Bind
-$(window).bind('breakpoint-change', function(event) {
+$(window).bind("breakpoint-change", function(event) {
   console.log(event.from, event.to);
 });
 
 // Example Usage
-$(window).bind('breakpoint-change', function(event) {
-  if (event.to === 'md') {
+$(window).bind("breakpoint-change", function(event) {
+  if (event.to === "md") {
     ...
   }
 });
@@ -41,15 +41,15 @@ $(window).bind('breakpoint-change', function(event) {
 Using namespaces will allow unbinding of specific `breakpoint-change` if necessary.
 
 ```js
-$(window).bind('breakpoint-change.megamenu', function(event) {
+$(window).bind("breakpoint-change.megamenu", function(event) {
   // Will get unbinded
 });
 
-$(window).bind('breakpoint-change.footer', function(event) {
-  // Won't get unbinded
+$(window).bind("breakpoint-change.footer", function(event) {
+  // Won"t get unbinded
 });
 
-$(window).unbind('breakpoint-change.megamenu');
+$(window).unbind("breakpoint-change.megamenu");
 ```
 
 ### Specific Breakpoints
@@ -58,24 +58,24 @@ Checking against the current breakpoint and if it matches the criteria execute t
 
 ```js
 // Basic Example
-$(window).breakpoints('lessThan', 'md', function() {
+$(window).breakpoints("lessThan", "md", function() {
   // If viewport is less than 992px do something here.
 });
 
 // Constant Check Example
-$(window).bind('breakpoint-change', function(event) {
-  $(window).breakpoints('lessThan', 'md', function() {
+$(window).bind("breakpoint-change", function(event) {
+  $(window).breakpoints("lessThan", "md", function() {
     ...
   });
 });
 
 // Usage Example
-$('button').click(function() {
-  $(window).breakpoints('lessThan', 'sm', function() {
+$("button").click(function() {
+  $(window).breakpoints("lessThan", "sm", function() {
     // Use a modal
   });
 
-  $(window).breakpoints('greaterEqualTo', 'md', function() {
+  $(window).breakpoints("greaterEqualTo", "md", function() {
     // Do something else
   });
 });
@@ -92,10 +92,19 @@ Use cases where the two m
 `array` `default:`
 ```json
 [
-  {'name': 'xs', 'width': 0},
-  {'name': 'sm', 'width': 768},
-  {'name' : 'md', 'width': 992},
-  {'name' : 'lg', 'width': 1200}
+  {
+    "name": "xs",
+    "width": 0
+  }, {
+    "name": "sm",
+    "width": 768
+  }, {
+    "name": "md",
+    "width": 992
+  }, {
+    "name": "lg",
+    "width": 1200
+  }
 ]
 ```
 
@@ -116,7 +125,7 @@ these
 Return the current breakpoint name
 
 ```js
-$(window).breakpoints('getBreakpoint');
+$(window).breakpoints("getBreakpoint");
 ```
 
 ### getBreakpointWidth
@@ -124,7 +133,7 @@ $(window).breakpoints('getBreakpoint');
 Return the current breakpoint width given the break point name.
 
 ```js
-$(window).breakpoints('getBreakpointWidth', [breakpoint name]);
+$(window).breakpoints("getBreakpointWidth", [breakpoint name]);
 ```
 
 ### destroy
@@ -132,7 +141,7 @@ $(window).breakpoints('getBreakpointWidth', [breakpoint name]);
 This will stop ALL breakpoints from listening for changes. Look at the examples
 
 ```js
-$(window).breakpoints('destroy');
+$(window).breakpoints("destroy");
 ```
 
 ## Comparing Methods
@@ -142,7 +151,7 @@ $(window).breakpoints('destroy');
 Returns true if the current viewport is less than the breakpoint.
 
 ```js
-$(window).breakpoints('lessThan', [breakpoint name], [callback]);
+$(window).breakpoints("lessThan", [breakpoint name], [callback]);
 ```
 
 ### lessEqualTo
@@ -150,7 +159,7 @@ $(window).breakpoints('lessThan', [breakpoint name], [callback]);
 Returns true if the current viewport is less but also equal to the breakpoint value.
 
 ```js
-$(window).breakpoints('lessEqualTo', [breakpoint name], [callback]);
+$(window).breakpoints("lessEqualTo", [breakpoint name], [callback]);
 ```
 
 ### greaterThan
@@ -158,7 +167,7 @@ $(window).breakpoints('lessEqualTo', [breakpoint name], [callback]);
 Returns true if the current viewport is greater than the breakpoint.
 
 ```js
-$(window).breakpoints('greaterThan', [breakpoint name], [callback]);
+$(window).breakpoints("greaterThan", [breakpoint name], [callback]);
 ```
 
 ### greaterEqualTo
@@ -166,7 +175,7 @@ $(window).breakpoints('greaterThan', [breakpoint name], [callback]);
 Returns true if the current viewport is greater but also equal to the breakpoint.
 
 ```js
-$(window).breakpoints('greaterEqualTo', [breakpoint name], [callback]);
+$(window).breakpoints("greaterEqualTo", [breakpoint name], [callback]);
 ```
 
 ### inside
@@ -174,5 +183,5 @@ $(window).breakpoints('greaterEqualTo', [breakpoint name], [callback]);
 Returns true if the current viewport is within the breakpoint and its lower limits. With the default breakpoints: If the current viewport width is `900px` this would be true for `sm`. This will return true for the last (largest) breakpoint while the viewport width is greater than its value.
 
 ```js
-$(window).breakpoints('inside', [breakpoint name], [callback]);
+$(window).breakpoints("inside", [breakpoint name], [callback]);
 ```
