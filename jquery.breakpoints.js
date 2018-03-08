@@ -173,7 +173,6 @@
         }
 
         resizeThresholdTimerId = setTimeout(function(e) {
-          console.log('dd');
           _resizeCallback();
           _compareTrigger();
         }, _.settings.buffer);
