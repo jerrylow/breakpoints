@@ -112,6 +112,7 @@
             $(window).trigger('lessThan-' + bp.name);
             bp.less = true;
             bp.greater = false;
+            bp.greaterEqual = false;
           }
         }
 
@@ -120,7 +121,7 @@
           if (!bp.greaterEqual) {
             $(window).trigger('greaterEqualTo-' + bp.name);
             bp.greaterEqual = true;
-            bp.lessEqual = false;
+            bp.less = false;
           }
 
           if (windowWidth > bp.width) {
