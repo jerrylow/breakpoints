@@ -16,7 +16,7 @@ $(document).ready(function() {
 });
 ```
 
-Bind to window's event `breakpoint-change` and listen for breakpoint changes.
+Bind to window's event `breakpoint-change` and listen for breakpoint changes or bind to one of the compare triggers to react to specific breakpoints.
 
 
 ## Package Managers
@@ -74,7 +74,7 @@ $(window).on('inside-md', function() {
 
 ### Customize Breakpoints
 
-Set breakpoints based on website/application needs.
+Set breakpoints based on website/application needs. Note the naming will change the the compare triggers.
 
 ```js
 
@@ -96,6 +96,11 @@ $(window).breakpoints({
     "width": 1340
   }]
 });
+
+// Compare Trigger
+$(window).on('greaterEqualTo-desktop', function() {
+  // Do something when viewport is greater or equal to 1024px
+});
 ```
 
 ### Use Namespacing
@@ -104,11 +109,11 @@ Using namespaces will allow unbinding of specific `breakpoint-change` if necessa
 
 ```js
 $(window).bind("breakpoint-change.megamenu", function(event) {
-  // Will get unbinded
+  // Will get unbound
 });
 
 $(window).bind("breakpoint-change.footer", function(event) {
-  // Won"t get unbinded
+  // Won"t get unbound
 });
 
 $(window).unbind("breakpoint-change.megamenu");
@@ -116,7 +121,7 @@ $(window).unbind("breakpoint-change.megamenu");
 
 ### Comparing Specific Breakpoints
 
-Checking against the current breakpoint and if it matches the criteria execute the callback function. This method is **not** constantly listening for changes until the viewport hits the criteria see _Constant Check Example_ below. See [comparing methods](#comparing-methods) for all available options.
+Checking against the current breakpoint and if it matches the criteria execute the callback function. This method is **not** constantly listening for changes, it's a one time check. For constant check see _Constant Check Example_ below or use [comparing triggers](#listening-for-specific-breakpoints-then-execute). See [comparing methods](#comparing-methods) for all available options.
 
 ```js
 // Basic Example
@@ -131,7 +136,7 @@ $(window).bind("breakpoint-change", function(event) {
   });
 });
 
-// Usage Example
+// Practical Usage Example
 $("button").click(function() {
   $(window).breakpoints("lessThan", "sm", function() {
     // Use a modal
@@ -139,6 +144,19 @@ $("button").click(function() {
 
   $(window).breakpoints("greaterEqualTo", "md", function() {
     // Do something else
+  });
+});
+
+// The Above is usually preferred over
+$(window).on('lessThan-md', function() {
+  $("button").click(function() {
+    ...
+  });
+});
+
+$(window).on('greaterEqualTo-md', function() {
+  $("button").click(function() {
+    ...
   });
 });
 ```

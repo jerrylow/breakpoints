@@ -1,26 +1,22 @@
 /*
- * jQuery Breakpoints
- * Author: Jerry Low
- * Url: https://www.github.com/jerrylow/breakpoints
+ * @license jQuery Breakpoints | MIT | Jerry Low | https://www.github.com/jerrylow/breakpoints
  */
 
 (function($) {
   var Breakpoints = function(el, options) {
     var _ = this;
 
-    /**
-     * Public
-     **/
+    _.n = "breakpoints";
     _.settings = {};
     _.currentBp = null;
 
     _.getBreakpoint = function() {
-      var windowWidth = $(window).width();
+      var winW = $(window).width();
       var bps = _.settings.breakpoints;
       var bpName;
 
       bps.forEach(function(bp) {
-        if (windowWidth >= bp.width) {
+        if (winW >= bp.width) {
           bpName = bp.name;
         }
       });
@@ -47,23 +43,23 @@
     };
 
     _.compareCheck = function(check, checkBpName, callback) {
-      var windowWidth = $(window).width();
+      var winW = $(window).width();
       var bps = _.settings.breakpoints;
       var bpWidth = _.getBreakpointWidth(checkBpName);
       var isBp = false;
 
       switch (check) {
         case "lessThan":
-          isBp = windowWidth < bpWidth;
+          isBp = winW < bpWidth;
           break;
         case "lessEqualTo":
-          isBp = windowWidth <= bpWidth;
+          isBp = winW <= bpWidth;
           break;
         case "greaterThan":
-          isBp = windowWidth > bpWidth;
+          isBp = winW > bpWidth;
           break;
         case "greaterEqualTo":
-          isBp = windowWidth > bpWidth;
+          isBp = winW > bpWidth;
           break;
         case "inside":
           var bpIndex = bps.findIndex(function(bp) {
@@ -71,10 +67,10 @@
           });
 
           if (bpIndex === bps.length - 1) {
-            isBp = windowWidth > bpWidth;
+            isBp = winW > bpWidth;
           } else {
             var nextBpWidth = _.getBreakpointWidth(bps[bpIndex + 1].name);
-            isBp = windowWidth >= bpWidth && windowWidth < nextBpWidth;
+            isBp = winW >= bpWidth && winW < nextBpWidth;
           }
           break;
       }
@@ -85,18 +81,15 @@
     };
 
     _.destroy = function() {
-      $(window).unbind("breakpoints");
+      $(window).unbind(_.n);
     };
 
-    /**
-     * Private
-     **/
     var _compareTrigger = function() {
-      var windowWidth = $(window).width();
-      var breakpoints = _.settings.breakpoints;
-      var currentBp = _.getBreakpoint();
+      var winW = $(window).width();
+      var bps = _.settings.breakpoints;
+      var currentBp = _.currentBp;
 
-      breakpoints.forEach(function(bp) {
+      bps.forEach(function(bp) {
         if (currentBp === bp.name) {
           if (!bp.inside) {
             $(window).trigger('inside-' + bp.name);
@@ -106,8 +99,7 @@
           bp.inside = false;
         }
 
-        // Less Than
-        if (windowWidth < bp.width) {
+        if (winW < bp.width) {
           if (!bp.less) {
             $(window).trigger('lessThan-' + bp.name);
             bp.less = true;
@@ -116,15 +108,14 @@
           }
         }
 
-        // Greater Than
-        if (windowWidth >= bp.width) {
+        if (winW >= bp.width) {
           if (!bp.greaterEqual) {
             $(window).trigger('greaterEqualTo-' + bp.name);
             bp.greaterEqual = true;
             bp.less = false;
           }
 
-          if (windowWidth > bp.width) {
+          if (winW > bp.width) {
             if (!bp.greater) {
               $(window).trigger('greaterThan-' + bp.name);
               bp.greater = true;
@@ -149,26 +140,21 @@
       }
     };
 
-    /**
-     * Initiate
-     **/
+    // Initiate
     var settings = $.extend({}, $.fn.breakpoints.defaults, options);
-
     _.settings = {
       breakpoints: settings.breakpoints,
       buffer: settings.buffer,
       triggerOnInit: settings.triggerOnInit
     };
 
-    // Store info
-    el.data("breakpoints", this);
+    el.data(_.n, this);
     _.currentBp = _.getBreakpoint();
 
-    // Resizing
     var resizeThresholdTimerId = null;
 
     if ($.isFunction($(window).on)) {
-      $(window).on("resize.breakpoints", function(e) {
+      $(window).on("resize." + _.n, function(e) {
         if (resizeThresholdTimerId) {
           clearTimeout(resizeThresholdTimerId);
         }
@@ -191,7 +177,6 @@
       }, _.settings.buffer);
     }
 
-    // Compare Triggers Sent on Init
     setTimeout(function() {
       _compareTrigger();
     }, 0);
