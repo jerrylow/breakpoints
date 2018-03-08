@@ -11,8 +11,8 @@
     /**
      * Public
      **/
-    _.settings,
-    _.currentBp;
+    _.settings = {};
+    _.currentBp = null;
 
     _.getBreakpoint = function() {
       var windowWidth = $(window).width();
@@ -44,7 +44,7 @@
       });
 
       return bpWidth;
-    }
+    };
 
     _.compareCheck = function(check, checkBpName, callback) {
       var windowWidth = $(window).width();
@@ -66,14 +66,14 @@
           isBp = windowWidth > bpWidth;
           break;
         case "inside":
-          bpIndex = bps.findIndex(function(bp) {
+          var bpIndex = bps.findIndex(function(bp) {
             return bp.name === checkBpName;
           });
 
-          if (bpIndex === bps.lenth - 1) {
+          if (bpIndex === bps.length - 1) {
             isBp = windowWidth > bpWidth;
           } else {
-            nextBpWidth = _.getBreakpointWidth(bps[bpIndex + 1].name);
+            var nextBpWidth = _.getBreakpointWidth(bps[bpIndex + 1].name);
             isBp = windowWidth >= bpWidth && windowWidth < nextBpWidth;
           }
           break;
@@ -82,15 +82,58 @@
       if (isBp) {
         callback();
       }
-    }
+    };
 
     _.destroy = function() {
       $(window).unbind("breakpoints");
-    }
+    };
 
     /**
      * Private
      **/
+    var _compareTrigger = function() {
+      var windowWidth = $(window).width();
+      var breakpoints = _.settings.breakpoints;
+      var currentBp = _.getBreakpoint();
+
+      breakpoints.forEach(function(bp) {
+        if (currentBp === bp.name) {
+          if (!bp.inside) {
+            $(window).trigger('inside-' + bp.name);
+            bp.inside = true;
+          }
+        } else {
+          bp.inside = false;
+        }
+
+        // Less Than
+        if (windowWidth < bp.width) {
+          if (!bp.less) {
+            $(window).trigger('lessThan-' + bp.name);
+            bp.less = true;
+            bp.greater = false;
+          }
+        }
+
+        // Greater Than
+        if (windowWidth >= bp.width) {
+          if (!bp.greaterEqual) {
+            $(window).trigger('greaterEqualTo-' + bp.name);
+            bp.greaterEqual = true;
+            bp.lessEqual = false;
+          }
+
+          if (windowWidth > bp.width) {
+            if (!bp.greater) {
+              $(window).trigger('greaterThan-' + bp.name);
+              bp.greater = true;
+              bp.less = false;
+            }
+          }
+        }
+      });
+    };
+
     var _resizeCallback = function() {
       var newBp = _.getBreakpoint();
 
@@ -121,14 +164,18 @@
     _.currentBp = _.getBreakpoint();
 
     // Resizing
-    var resizeThresholdTimerId;
+    var resizeThresholdTimerId = null;
 
     if ($.isFunction($(window).on)) {
       $(window).on("resize.breakpoints", function(e) {
-        resizeThresholdTimerId && clearTimeout(resizeThresholdTimerId);
+        if (resizeThresholdTimerId) {
+          clearTimeout(resizeThresholdTimerId);
+        }
 
         resizeThresholdTimerId = setTimeout(function(e) {
+          console.log('dd');
           _resizeCallback();
+          _compareTrigger();
         }, _.settings.buffer);
       });
     }
@@ -143,7 +190,12 @@
         });
       }, _.settings.buffer);
     }
-  }
+
+    // Compare Triggers Sent on Init
+    setTimeout(function() {
+      _compareTrigger();
+    }, 0);
+  };
 
   $.fn.breakpoints = function(method, arg1, arg2) {
     if (this.data("breakpoints")) {
@@ -182,5 +234,4 @@
     buffer: 300,
     triggerOnInit: false
   };
-
 })(jQuery);
