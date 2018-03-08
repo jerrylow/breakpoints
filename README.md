@@ -56,9 +56,7 @@ $(window).bind("breakpoint-change", function(event) {
 
 ### Listening for Specific Breakpoints Then Execute
 
-### Customize Breakpoints
-
-Breakpoints will trigger compare triggers followed by the breakpoint name. All of the [compare methods](#comparing-methods) have a trigger with the _exception_ of `lessThanEqual` which conflicts with `greaterThanEqual`. Compare triggers will send on initializing.
+Breakpoints will trigger compare triggers followed by the breakpoint name. All of the [comparing methods](#comparing-methods) have a trigger with the _exception_ of `lessThanEqual` which conflicts with `greaterThanEqual`. Compare triggers will send on initializing.
 
 ```js
 $(window).on('lessThan-md', function() {
@@ -73,6 +71,8 @@ $(window).on('inside-md', function() {
   // Do something when viewport is greater or equal to 992px BUT less than 1200px
 });
 ```
+
+### Customize Breakpoints
 
 Set breakpoints based on website/application needs.
 
