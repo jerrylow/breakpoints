@@ -146,19 +146,6 @@ $("button").click(function() {
     // Do something else
   });
 });
-
-// The Above is usually preferred over
-$(window).on('lessThan-md', function() {
-  $("button").click(function() {
-    ...
-  });
-});
-
-$(window).on('greaterEqualTo-md', function() {
-  $("button").click(function() {
-    ...
-  });
-});
 ```
 
 
@@ -204,7 +191,7 @@ On initializing Breakpoints after the buffer trigger a `breakpoint-change` so al
 
 ### getBreakPoint
 
-Return the current breakpoint name
+Return the current breakpoint name.
 
 ```js
 $(window).breakpoints("getBreakpoint");
@@ -220,7 +207,7 @@ $(window).breakpoints("getBreakpointWidth", [breakpoint name]);
 
 ### destroy
 
-This will stop ALL breakpoints from listening for changes. Look at the examples
+This will stop ALL breakpoints from listening for changes. To remove a single breakpoint bind see [Use namespacing](#use-namespacing).
 
 ```js
 $(window).breakpoints("destroy");
@@ -239,7 +226,7 @@ $(window).breakpoints("lessThan", [breakpoint name], [callback]);
 
 ### lessEqualTo
 
-Returns true if the current viewport is less but also equal to the breakpoint value.
+Returns `true` if the current viewport is less but also equal to the breakpoint value.
 
 ```js
 $(window).breakpoints("lessEqualTo", [breakpoint name], [callback]);
@@ -247,7 +234,7 @@ $(window).breakpoints("lessEqualTo", [breakpoint name], [callback]);
 
 ### greaterThan
 
-Returns true if the current viewport is greater than the breakpoint.
+Returns `true` if the current viewport is greater than the breakpoint.
 
 ```js
 $(window).breakpoints("greaterThan", [breakpoint name], [callback]);
@@ -255,7 +242,7 @@ $(window).breakpoints("greaterThan", [breakpoint name], [callback]);
 
 ### greaterEqualTo
 
-Returns true if the current viewport is greater but also equal to the breakpoint.
+Returns `true` if the current viewport is greater but also equal to the breakpoint.
 
 ```js
 $(window).breakpoints("greaterEqualTo", [breakpoint name], [callback]);
@@ -263,7 +250,7 @@ $(window).breakpoints("greaterEqualTo", [breakpoint name], [callback]);
 
 ### inside
 
-Returns true if the current viewport is within the breakpoint and its lower limits. With the default breakpoints: If the current viewport width is `900px` this would be true for `sm`. This will return true for the last (largest) breakpoint while the viewport width is greater than its value.
+Returns `true` if the current viewport is within the breakpoint and its lower limits. Eg. with the default breakpoints -- If the current viewport width is `900px` this would be `true` for `sm`. This will return `true` for the last (largest) breakpoint while the viewport width is greater than its value.
 
 ```js
 $(window).breakpoints("inside", [breakpoint name], [callback]);
