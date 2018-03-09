@@ -11,7 +11,7 @@
     _.currentBp = null;
 
     _.getBreakpoint = function() {
-      var winW = $(window).width();
+      var winW = _windowWidth();
       var bps = _.settings.breakpoints;
       var bpName;
 
@@ -43,7 +43,7 @@
     };
 
     _.compareCheck = function(check, checkBpName, callback) {
-      var winW = $(window).width();
+      var winW = _windowWidth();
       var bps = _.settings.breakpoints;
       var bpWidth = _.getBreakpointWidth(checkBpName);
       var isBp = false;
@@ -85,7 +85,7 @@
     };
 
     var _compareTrigger = function() {
-      var winW = $(window).width();
+      var winW = _windowWidth();
       var bps = _.settings.breakpoints;
       var currentBp = _.currentBp;
 
@@ -126,6 +126,16 @@
       });
     };
 
+    var _windowWidth = function() {
+      var win = $(window);
+
+      if (_.outerWidth) {
+        return win.outerWidth();
+      }
+
+      return win.width();
+    }
+
     var _resizeCallback = function() {
       var newBp = _.getBreakpoint();
 
@@ -145,7 +155,8 @@
     _.settings = {
       breakpoints: settings.breakpoints,
       buffer: settings.buffer,
-      triggerOnInit: settings.triggerOnInit
+      triggerOnInit: settings.triggerOnInit,
+      outerWidth: settings.outerWidth
     };
 
     el.data(_.n, this);
@@ -217,6 +228,7 @@
       {"name" : "lg", "width": 1200}
     ],
     buffer: 300,
-    triggerOnInit: false
+    triggerOnInit: false,
+    outerWidth: false
   };
 })(jQuery);

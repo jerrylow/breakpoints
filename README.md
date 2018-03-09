@@ -186,6 +186,12 @@ A buffer is set before breakpoints trigger `breakpoint-change`. The buffer keeps
 
 On initializing Breakpoints after the buffer trigger a `breakpoint-change` so all bindings necessary could happen. This will return the same event object as regular breakpoint change with `event.initalInit`.
 
+### outerWidth
+
+`boolean` `default: false`
+
+Use `$(window).outerWidth()` over the default `$(window).width()` for window width calculations.
+
 
 ## Methods
 
