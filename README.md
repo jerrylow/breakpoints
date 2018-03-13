@@ -5,6 +5,8 @@
 
 Breakpoints is a light weight jQuery library to detect and manage breakpoint changes. Breakpoint was originally written to optimize large single page sites with too many binds on `resize` causing performance issues. While still achieving the previous goal it has also been re-written to assist with general breakpoint management.
 
+[Demo](http://jerrylow.com/jquery-breakpoints/)
+
 
 ## How to use
 
