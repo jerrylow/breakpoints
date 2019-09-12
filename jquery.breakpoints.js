@@ -208,7 +208,7 @@
         return thisBp.getBreakpoint();
       } else if (method === "getBreakpointWidth") {
         return thisBp.getBreakpointWidth(arg1);
-      } else if (compareMethods.includes(method)) {
+      } else if (!!compareMethods.indexOf(method)) {
         return thisBp.compareCheck(method, arg1, arg2);
       } else if (method === "destroy") {
         thisBp.destroy();
