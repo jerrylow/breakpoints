@@ -133,7 +133,7 @@
         return win.outerWidth();
       }
 
-      return win.width();
+      return window.innerWidth ? window.innerWidth : win.width();
     }
 
     var _resizeCallback = function() {

@@ -1,6 +1,6 @@
 {
   "name": "jquery-breakpoints",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "jQuery Responsive/Breakpoint Optimized Library.",
   "main": "jquery.breakpoints.js",
   "scripts": {
