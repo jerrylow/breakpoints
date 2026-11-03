@@ -164,7 +164,7 @@
 
     var resizeThresholdTimerId = null;
 
-    if ($.isFunction($(window).on)) {
+    if (typeof $(window).on === "function") {
       $(window).on("resize." + _.n, function(e) {
         if (resizeThresholdTimerId) {
           clearTimeout(resizeThresholdTimerId);
